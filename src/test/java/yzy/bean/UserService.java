@@ -5,23 +5,30 @@ package yzy.bean;
  * */
 
 public class UserService {
-    private String name;
+    private String uId;
 
-    public UserService() {
+    private UserDao userDao;
+
+
+    public String getName() {
+        return uId;
     }
 
-    public UserService(String name) {
-        this.name = name;
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
+    public void setName(String name) {
+        this.uId = name;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     public void queryUserInfo() {
-        System.out.println("查询用户信息：" + name);
+        System.out.println("查询用户信息：" + userDao.queryUserName(uId));
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("");
-        sb.append("").append(name);
-        return sb.toString();
-    }
+
 }

@@ -21,7 +21,6 @@ public class CglibSubclassingInstantiationStrategy implements InstantiationStrat
         *CGLIB基于继承 所以enhancer.setSuperclass
         *enhancer.create()
         * */
-
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(beanDefinition.getBeanClass());
         enhancer.setCallback(new NoOp () {
