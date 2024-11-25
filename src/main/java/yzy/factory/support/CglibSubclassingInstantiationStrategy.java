@@ -29,7 +29,7 @@ public class CglibSubclassingInstantiationStrategy implements InstantiationStrat
             return super.hashCode();
         }
         });
-        if(ctor==null) enhancer.create();
+        if(ctor==null) return enhancer.create();
         return enhancer.create(ctor.getParameterTypes(),args);
     }
 }

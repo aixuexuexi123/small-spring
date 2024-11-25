@@ -5,5 +5,6 @@ package yzy.factory.config;
 * */
 public interface SingletonBeanRegistry {
 
+   //   拿单例
    Object getSingleton(String beanName);
 }
