@@ -8,9 +8,15 @@ package yzy.springframework.beans.factory.support;
 import yzy.springframework.beans.factory.BeanFactory;
 import yzy.springframework.beans.BeansException;
 import yzy.springframework.beans.factory.config.BeanDefinition;
+import yzy.springframework.beans.factory.config.BeanPostProcessor;
+import yzy.springframework.beans.factory.config.ConfigurableBeanFactory;
 
-public abstract   class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {
+import java.util.ArrayList;
+import java.util.List;
 
+public abstract   class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+
+    private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
 
     @Override
     public Object getBean(String name) throws BeansException {
@@ -34,7 +40,16 @@ public abstract   class AbstractBeanFactory extends DefaultSingletonBeanRegistry
         BeanDefinition beanDefinition = getBeanDefinition(name);
         return (T) createBean(name, beanDefinition,args);
     }
+
+    @Override
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+
+    }
     protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
 
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException;
+
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return beanPostProcessors;
+    }
 }

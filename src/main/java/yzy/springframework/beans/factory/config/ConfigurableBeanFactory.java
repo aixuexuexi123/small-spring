@@ -1,8 +1,12 @@
 package yzy.springframework.beans.factory.config;
 
-public interface ConfigurableBeanFactory {
+import yzy.springframework.beans.factory.HierarchicalBeanFactory;
+
+public interface ConfigurableBeanFactory extends HierarchicalBeanFactory {
 
     String SCOPE_SINGLETON = "singleton";
 
     String SCOPE_PROTOTYPE = "prototype";
+
+    void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
 }
