@@ -7,4 +7,9 @@ public interface SingletonBeanRegistry {
 
    //   拿单例
    Object getSingleton(String beanName);
+
+   /**
+    * 销毁单例对象
+    */
+   void destroySingletons();
 }

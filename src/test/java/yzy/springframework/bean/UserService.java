@@ -4,7 +4,10 @@ package yzy.springframework.bean;
  *@Date 2024/10/8
  * */
 
-public class UserService {
+import yzy.springframework.beans.factory.DisposableBean;
+import yzy.springframework.beans.factory.InitializingBean;
+
+public class UserService implements InitializingBean, DisposableBean {
     private String uId;
 
     private UserDao userDao;
@@ -32,4 +35,13 @@ public class UserService {
     }
 
 
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("destroy");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("初始化");
+    }
 }

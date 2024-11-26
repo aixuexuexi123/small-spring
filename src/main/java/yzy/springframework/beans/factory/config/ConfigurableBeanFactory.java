@@ -2,7 +2,7 @@ package yzy.springframework.beans.factory.config;
 
 import yzy.springframework.beans.factory.HierarchicalBeanFactory;
 
-public interface ConfigurableBeanFactory extends HierarchicalBeanFactory {
+public interface ConfigurableBeanFactory extends HierarchicalBeanFactory,SingletonBeanRegistry {
 
     String SCOPE_SINGLETON = "singleton";
 
