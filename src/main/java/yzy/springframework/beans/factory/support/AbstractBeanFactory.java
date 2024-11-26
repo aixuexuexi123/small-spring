@@ -10,11 +10,14 @@ import yzy.springframework.beans.BeansException;
 import yzy.springframework.beans.factory.config.BeanDefinition;
 import yzy.springframework.beans.factory.config.BeanPostProcessor;
 import yzy.springframework.beans.factory.config.ConfigurableBeanFactory;
+import yzy.springframework.util.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract   class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+
+    private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
 
@@ -51,5 +54,9 @@ public abstract   class AbstractBeanFactory extends DefaultSingletonBeanRegistry
 
     public List<BeanPostProcessor> getBeanPostProcessors() {
         return beanPostProcessors;
+    }
+
+    public ClassLoader getBeanClassLoader() {
+        return beanClassLoader;
     }
 }

@@ -9,12 +9,12 @@ import cn.hutool.core.util.StrUtil;
 import yzy.springframework.beans.BeansException;
 import yzy.springframework.beans.PropertyValue;
 import yzy.springframework.beans.PropertyValues;
-import yzy.springframework.beans.factory.DisposableBean;
+import yzy.springframework.beans.factory.*;
 import yzy.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import yzy.springframework.beans.factory.config.BeanDefinition;
 import yzy.springframework.beans.factory.config.BeanPostProcessor;
 import yzy.springframework.beans.factory.config.BeanReference;
-import yzy.springframework.beans.factory.InitializingBean;
+import yzy.springframework.context.ApplicationContextAware;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -94,6 +94,22 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        // invokeAwareMethods
+        if (bean instanceof Aware) {
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(this);
+            }
+            if (bean instanceof BeanClassLoaderAware){
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(getBeanClassLoader());
+            }
+//            if (bean instanceof ApplicationContextAware){
+//                ((ApplicationContextAware)bean).setApplicationContext(this);
+//            }
+            if (bean instanceof BeanNameAware) {
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+        }
+
         // 1. 执行 BeanPostProcessor Before 处理
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
