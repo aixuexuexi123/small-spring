@@ -7,6 +7,7 @@ package yzy.springframework.beans.factory.support;
 
 import yzy.springframework.beans.factory.BeanFactory;
 import yzy.springframework.beans.BeansException;
+import yzy.springframework.beans.factory.FactoryBean;
 import yzy.springframework.beans.factory.config.BeanDefinition;
 import yzy.springframework.beans.factory.config.BeanPostProcessor;
 import yzy.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -15,7 +16,7 @@ import yzy.springframework.util.ClassUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract   class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+public abstract   class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
     private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
@@ -42,6 +43,21 @@ public abstract   class AbstractBeanFactory extends DefaultSingletonBeanRegistry
         if(bean!=null) return (T)bean;
         BeanDefinition beanDefinition = getBeanDefinition(name);
         return (T) createBean(name, beanDefinition,args);
+    }
+
+    private Object getObjectForBeanInstance(Object beanInstance, String beanName){
+
+        if (!(beanInstance instanceof FactoryBean)) {
+            return beanInstance;
+        }
+
+        Object object = getCachedObjectForFactoryBean(beanName);
+        if (object == null) {
+            FactoryBean<?> factoryBean = (FactoryBean<?>) beanInstance;
+            object = getObjectFromFactoryBean(factoryBean, beanName);
+        }
+
+        return object;
     }
 
     @Override
