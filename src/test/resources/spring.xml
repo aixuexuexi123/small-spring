@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
+    <bean class="yzy.springframework.event.ContextClosedEventListener"/>
+    <bean class="yzy.springframework.event.ContexRefreshListener"/>
+    <bean class="yzy.springframework.event.ContextEventListener"/>
 
-    <bean id="userDao" class="yzy.springframework.bean.UserDao"/>
 
-    <bean id="userService" class="yzy.springframework.bean.UserService">
-        <property name="uId" value="10001"/>
-        <property name="userDao" ref="userDao"/>
-    </bean>
 
 </beans>

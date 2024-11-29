@@ -1,6 +1,7 @@
 package yzy.springframework.context;
 
 
+import yzy.springframework.beans.factory.HierarchicalBeanFactory;
 import yzy.springframework.beans.factory.ListableBeanFactory;
 
 /**
@@ -10,5 +11,5 @@ import yzy.springframework.beans.factory.ListableBeanFactory;
  *
  * 应用上下文
  */
-public interface ApplicationContext extends ListableBeanFactory {
+public interface ApplicationContext extends ListableBeanFactory, HierarchicalBeanFactory,ApplicationEventPublisher {
 }

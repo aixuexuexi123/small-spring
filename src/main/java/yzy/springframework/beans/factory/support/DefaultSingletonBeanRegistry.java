@@ -9,8 +9,10 @@ import yzy.springframework.beans.factory.DisposableBean;
 import yzy.springframework.beans.factory.config.SingletonBeanRegistry;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
@@ -19,9 +21,9 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     /*map  放 拿
     */
 
-    private final HashMap<String, Object> singletonMap= new HashMap<>();
+    private  HashMap<String, Object> singletonMap= new HashMap<>();
 
-    private final Map<String, DisposableBean> disposableBeans = new HashMap<>();
+    private final Map<String, DisposableBean> disposableBeans = new LinkedHashMap<>();
     @Override
     public Object getSingleton(String beanName) {
         return singletonMap.get(beanName);
@@ -45,6 +47,11 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         }
 
 
+    }
+
+    @Override
+    public void registerSingleton(String beanName, Object singletonObject) {
+       singletonMap.put(beanName,singletonObject);
     }
 
     public void addSingleton(String beanName,Object singleton) {

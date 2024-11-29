@@ -7,6 +7,7 @@ package yzy.springframework;
 import cn.hutool.core.io.IoUtil;
 import org.junit.Before;
 import org.junit.Test;
+import yzy.springframework.event.ContextEvent;
 import yzy.springframework.bean.UserDao;
 import yzy.springframework.bean.UserService;
 import yzy.springframework.beans.PropertyValue;
@@ -14,7 +15,6 @@ import yzy.springframework.beans.PropertyValues;
 import yzy.springframework.beans.factory.config.BeanDefinition;
 import yzy.springframework.beans.factory.config.BeanReference;
 import yzy.springframework.beans.factory.support.DefaultListableBeanFactory;
-import yzy.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import yzy.springframework.context.support.ClassPathXmlApplicationContext;
 import yzy.springframework.core.io.DefaultResourceLoader;
 import yzy.springframework.core.io.Resource;
@@ -91,5 +91,13 @@ public class ApiTest {
         System.out.println("测试结果：" + result);
         System.out.println("ApplicationContextAware："+userService.getApplicationContext());
         System.out.println("BeanFactoryAware："+userService.getBeanFactory());
+    }
+
+    @Test
+    public void test_event() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.publishEvent(new ContextEvent(applicationContext, 1019129009086763L, "成功了！"));
+
+        applicationContext.registerShutdownHook();
     }
 }
