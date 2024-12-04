@@ -1,4 +1,4 @@
-package yzy.springframework.bean;
+package yzy.springframework.test.bean;
 
 import java.util.Random;
 

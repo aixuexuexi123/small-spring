@@ -62,7 +62,7 @@ public abstract   class AbstractBeanFactory extends FactoryBeanRegistrySupport i
 
     @Override
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
-
+            beanPostProcessors.add(beanPostProcessor);
     }
     protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
 

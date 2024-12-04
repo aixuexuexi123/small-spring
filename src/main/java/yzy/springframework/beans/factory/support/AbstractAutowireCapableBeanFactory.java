@@ -10,10 +10,7 @@ import yzy.springframework.beans.BeansException;
 import yzy.springframework.beans.PropertyValue;
 import yzy.springframework.beans.PropertyValues;
 import yzy.springframework.beans.factory.*;
-import yzy.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import yzy.springframework.beans.factory.config.BeanDefinition;
-import yzy.springframework.beans.factory.config.BeanPostProcessor;
-import yzy.springframework.beans.factory.config.BeanReference;
+import yzy.springframework.beans.factory.config.*;
 import yzy.springframework.context.ApplicationContextAware;
 
 import java.lang.reflect.Constructor;
@@ -27,22 +24,51 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     @Override
     public Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
         Object bean=null;
+
         try {
+            // 判断是否返回代理 Bean 对象
+            bean = resolveBeforeInstantiation(beanName, beanDefinition);
+            if (null != bean) {
+                return bean;
+            }
+
             //            实例
             bean = createBeanInstance(beanDefinition,beanName,args);
             // 给 Bean 填充属性
             applyPropertyValues(beanName, bean, beanDefinition);
-            initializeBean(beanName, bean, beanDefinition);
+            // 执行 Bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法
+           bean= initializeBean(beanName, bean, beanDefinition);
 
         } catch (Exception e) {
             throw new BeansException("Instantiation of bean failed", e);
         }
+        // 注册实现了 DisposableBean 接口的 Bean 对象
         registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
+
+        // 判断 SCOPE_SINGLETON、SCOPE_PROTOTYPE
         if (beanDefinition.isSingleton()){
             addSingleton(beanName, bean);
         }
 
         return bean;
+    }
+
+    protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
+        Object bean = applyBeanPostProcessorsBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
+        if (null != bean) {
+            bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        }
+        return bean;
+    }
+
+    protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                Object result = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessBeforeInstantiation(beanClass, beanName);
+                if (null != result) return result;
+            }
+        }
+        return null;
     }
 
     protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {

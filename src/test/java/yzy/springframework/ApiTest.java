@@ -12,15 +12,10 @@ import yzy.springframework.aop.TargetSource;
 import yzy.springframework.aop.aspectj.AspectJExpressionPointcut;
 import yzy.springframework.aop.framework.Cglib2AopProxy;
 import yzy.springframework.aop.framework.JdkDynamicAopProxy;
-import yzy.springframework.bean.IUserService;
-import yzy.springframework.bean.UserServiceInterceptor;
+import yzy.springframework.test.bean.IUserService;
+import yzy.springframework.test.bean.UserServiceInterceptor;
 import yzy.springframework.event.ContextEvent;
-import yzy.springframework.bean.UserService;
-import yzy.springframework.beans.PropertyValue;
-import yzy.springframework.beans.PropertyValues;
-import yzy.springframework.beans.factory.config.BeanDefinition;
-import yzy.springframework.beans.factory.config.BeanReference;
-import yzy.springframework.beans.factory.support.DefaultListableBeanFactory;
+import yzy.springframework.test.bean.UserService;
 import yzy.springframework.context.support.ClassPathXmlApplicationContext;
 import yzy.springframework.core.io.DefaultResourceLoader;
 import yzy.springframework.core.io.Resource;
@@ -127,5 +122,13 @@ public class ApiTest {
         IUserService proxy_cglib = (IUserService) new Cglib2AopProxy(advisedSupport).getProxy();
         // 测试调用
         System.out.println("测试结果：" + proxy_cglib.register("花花"));
+    }
+
+    @Test
+    public void test_aop() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果：" + userService.queryUserInfo());
     }
 }

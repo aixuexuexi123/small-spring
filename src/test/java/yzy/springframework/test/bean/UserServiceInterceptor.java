@@ -1,4 +1,4 @@
-package yzy.springframework.bean;
+package yzy.springframework.test.bean;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

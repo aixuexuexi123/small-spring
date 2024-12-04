@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-    <bean class="yzy.springframework.event.ContextClosedEventListener"/>
-    <bean class="yzy.springframework.event.ContexRefreshListener"/>
-    <bean class="yzy.springframework.event.ContextEventListener"/>
+    <bean id="userService" class="yzy.springframework.test.bean.UserService"/>
+
+    <bean class="yzy.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <bean id="beforeAdvice" class="yzy.springframework.test.bean.UserServiceBeforeAdvice"/>
+
+    <bean id="methodInterceptor" class="yzy.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+        <property name="advice" ref="beforeAdvice"/>
+    </bean>
+
+    <bean id="pointcutAdvisor" class="yzy.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression" value="execution(* yzy.springframework.test.bean.IUserService.*(..))"/>
+        <property name="advice" ref="methodInterceptor"/>
+    </bean>
 
 
 
