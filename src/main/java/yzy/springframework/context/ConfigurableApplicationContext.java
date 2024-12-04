@@ -3,6 +3,8 @@ package yzy.springframework.context;
 
 import yzy.springframework.beans.BeansException;
 
+import java.io.IOException;
+
 /**
  * SPI interface to be implemented by most if not all application contexts.
  * Provides facilities to configure an application context in addition
@@ -16,7 +18,7 @@ public interface ConfigurableApplicationContext extends ApplicationContext {
      *
      * @throws BeansException
      */
-    void refresh() throws BeansException;
+    void refresh() throws BeansException, IOException;
 
     void registerShutdownHook();
 

@@ -3,6 +3,8 @@ package yzy.springframework.beans.factory.config;
 import yzy.springframework.beans.BeansException;
 import yzy.springframework.beans.factory.ConfigurableListableBeanFactory;
 
+import java.io.IOException;
+
 
 /**
  * Allows for custom modification of an application context's bean definitions,
@@ -20,6 +22,6 @@ public interface BeanFactoryPostProcessor {
      * @param beanFactory
      * @throws BeansException
      */
-    void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException;
+    void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException, IOException;
 
 }

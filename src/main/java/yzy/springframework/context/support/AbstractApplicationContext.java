@@ -12,6 +12,7 @@ import yzy.springframework.context.event.ContextRefreshedEvent;
 import yzy.springframework.context.event.SimpleApplicationEventMulticaster;
 import yzy.springframework.core.io.DefaultResourceLoader;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -33,7 +34,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
 
         // 4. 在 Bean 实例化之前，执行 BeanFactoryPostProcessor (Invoke factory processors registered as beans in the context.)
-        invokeBeanFactoryPostProcessors(beanFactory);
+        try {
+            invokeBeanFactoryPostProcessors(beanFactory);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         // 5. BeanPostProcessor 需要提前于其他 Bean 对象实例化之前执行注册操作
         registerBeanPostProcessors(beanFactory);
@@ -55,7 +60,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
     protected abstract ConfigurableListableBeanFactory getBeanFactory();
 
-    private void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+    private void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) throws IOException {
         Map<String, BeanFactoryPostProcessor> beanFactoryPostProcessorMap = beanFactory.getBeansOfType(BeanFactoryPostProcessor.class);
         for (BeanFactoryPostProcessor beanFactoryPostProcessor : beanFactoryPostProcessorMap.values()) {
             beanFactoryPostProcessor.postProcessBeanFactory(beanFactory);

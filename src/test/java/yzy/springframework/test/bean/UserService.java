@@ -1,11 +1,17 @@
 package yzy.springframework.test.bean;
 
+import yzy.springframework.stereotype.Component;
+
 import java.util.Random;
 
 /**
  * 作者：DerekYRC https://github.com/DerekYRC/mini-spring
  */
+
+@Component("userService")
 public class UserService implements IUserService {
+
+    private String token;
 
     public String queryUserInfo() {
         try {
@@ -25,4 +31,11 @@ public class UserService implements IUserService {
         return "注册用户：" + userName + " success！";
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
