@@ -1,69 +1,28 @@
 package yzy.springframework.bean;
-/*
- *@author yzy
- *@Date 2024/10/8
- * */
 
-import yzy.springframework.beans.BeansException;
-import yzy.springframework.beans.factory.*;
-import yzy.springframework.context.ApplicationContext;
-import yzy.springframework.context.ApplicationContextAware;
+import java.util.Random;
 
-public class UserService implements  BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
-    private String uId;
-
-    private UserDao userDao;
-
-    private ApplicationContext applicationContext;
-    private BeanFactory beanFactory;
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
-    @Override
-    public void setBeanName(String name) {
-        System.out.println("Bean Name is：" + name);
-    }
-
-    @Override
-    public void setBeanClassLoader(ClassLoader classLoader) {
-        System.out.println("ClassLoader：" + classLoader);
-    }
-
-    public String getName() {
-        return uId;
-    }
-
-    public UserDao getUserDao() {
-        return userDao;
-    }
-
-    public void setName(String name) {
-        this.uId = name;
-    }
-
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
-
-    public BeanFactory getBeanFactory() {
-        return beanFactory;
-    }
+/**
+ * 作者：DerekYRC https://github.com/DerekYRC/mini-spring
+ */
+public class UserService implements IUserService {
 
     public String queryUserInfo() {
-        return userDao.queryUserName(uId);
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "小傅哥，100001，深圳";
     }
 
-
+    public String register(String userName) {
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "注册用户：" + userName + " success！";
+    }
 
 }
