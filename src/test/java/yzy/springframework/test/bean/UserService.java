@@ -1,5 +1,7 @@
 package yzy.springframework.test.bean;
 
+import yzy.springframework.beans.factory.annotation.Autowired;
+import yzy.springframework.beans.factory.annotation.Value;
 import yzy.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -11,15 +13,18 @@ import java.util.Random;
 @Component("userService")
 public class UserService implements IUserService {
 
+    @Value("${token}")
     private String token;
 
+    @Autowired
+    private UserDao userDao;
+
+
+
+
     public String queryUserInfo() {
-        try {
-            Thread.sleep(new Random(1).nextInt(100));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return "小傅哥，100001，深圳";
+
+        return userDao.queryUserName("10001")+","+token;
     }
 
     public String register(String userName) {
